@@ -1,3 +1,5 @@
+## Source => http://www.maxburstein.com/blog/introduction-to-graph-theory-finding-shortest-path/
+
 require 'priority_queue'
  
 class Graph

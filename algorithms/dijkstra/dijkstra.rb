@@ -1,18 +1,20 @@
+## Resource => http://www.maxburstein.com/blog/introduction-to-graph-theory-finding-shortest-path/
+
 require 'priority_queue'
  
 class Graph
   attr_reader :vertices
 
   def initialize
-      vertices = {}
+    @vertices = {}
   end
 
   def add_vertex(name, edges)
-      vertices[name] = edges
+    vertices[name] = edges
   end
   
   def to_s
-      return vertices.inspect
+    return vertices.inspect
   end
 end
 
@@ -22,13 +24,18 @@ class Dijkstra
   def initialize(graph)
     @graph      = graph
     @vertices   = graph.vertices
-    @maxint     = nil #infinity
+    @maxint     = (2**(0.size * 8-2) -1) #infinity
     @distances  = {}
     @previous   = {}
     @nodes      = PriorityQueue.new
   end
 
-  def set_initial_values
+  def shortest_path(start, finish)
+    set_initial_values(start, finish)
+    bfs_through_nodes(start, finish)
+  end
+
+  def set_initial_values(start, finish)
     vertices.each do | vertex, value |
       if vertex == start
         distances[vertex] = 0
@@ -39,43 +46,39 @@ class Dijkstra
       end
       previous[vertex] = nil
     end
+  end
 
-  def shortest_path(start, finish)
-    set_initial_values(start, finish)
-
+  def bfs_through_nodes(start, finish)
     while nodes
       vertex = nodes.delete_min_return_key
-      # Return Path
-      if vertex == finish
-        path = []
-        while previous[vertex]
-          path.push vertex
-          vertex = previous[vertex]
-        end
-        return path
-      end
+
+      return shortest_path_vertices(vertex) if vertex == finish
+      break if vertex == nil || distances[vertex] == maxint
       
-      if vertex == nil or distances[vertex] == maxint
-        break            
-      end
-      
-      vertices[vertex].each do | neighbor, value |
-        # Add current Vertex Distance and nearest Neighbor's Distance  
-        alt = distances[vertex] + vertices[vertex][neighbor]
-        # Relax if alt < neighbor's distance from origianl source
-        if alt < distances[neighbor]
-          # Update Distances: This neighbor's distance from source 
-          distances[neighbor] = alt
-          # Update Previous: This neighbor's parent to current vertex
-          previous[neighbor] = vertex
-          # Update Nodes: This neighbor's distance from source 
-          nodes[neighbor] = alt
-        end
-      end
+      find_shortest_path_and_relax_nodes(vertex)
     end
     return distances.inspect
   end
 
+  def shortest_path_vertices(vertex)
+    path = []
+    while previous[vertex]
+      path.push vertex
+      vertex = previous[vertex]
+    end
+    path
+  end
+
+  def find_shortest_path_and_relax_nodes(vertex)
+    vertices[vertex].each do | neighbor, value |
+      alt = distances[vertex] + vertices[vertex][neighbor]
+      if alt < distances[neighbor]
+        distances[neighbor] = alt
+        previous[neighbor] = vertex
+        nodes[neighbor] = alt
+      end
+    end
+  end
 
 end
  
@@ -88,4 +91,6 @@ graph.add_vertex('E', {'H' => 1})
 graph.add_vertex('F', {'B' => 2, 'C' => 6, 'D' => 8, 'G' => 9, 'H' => 3})
 graph.add_vertex('G', {'C' => 4, 'F' => 9})
 graph.add_vertex('H', {'E' => 1, 'F' => 3})
-puts graph.shortest_path('A', 'H')
+
+dijkstra = Dijkstra.new(graph)
+puts dijkstra.shortest_path("A","H")
