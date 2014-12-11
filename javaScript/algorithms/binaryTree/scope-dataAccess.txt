@@ -16,3 +16,62 @@ Function: Every function in JavaScript is represented as an Object
           - > Also contain interanl properties only accessable by JavaScript Engine
 
           - > One of these properties is the [[Scope]] property
+
+Function instance's [[Scope]] Property:
+- > Contain a collection of Objects representing the scope in which
+    Object was created
+
+Scope Chain:
+- > The collection of Objects in [[Scope]] are called the scope chain.
+- > Scope Chain is another object that holds Varible Objects.
+- > These Variable Objects Typically Include as a base, the Global,
+    variable object, and when the function executes, an Activation object
+
+Execution Context: 
+- > When a function is executed, a temporary object is created called the Execution Context.
+- > Exectution Context's object has [[Scope]] -> Scope Chain -> (Activation Object , Global Object)
+- > Activation Object holds  all local variables for execution of the function
+
+Identifier Resolution: 
+- > Term for the time it takes to search for a variable in the Scope Chain
+    -> Local variables held in the Activation object are searched first( fastest)
+    -> Global Variables in the Global object take longer to find, last on scope chain
+
+Closures:
+- > Are created at function execution point to the same [[Scope]] (scope chain property) as the execution context
+- > When the function finishes executing, the scope chain's variable objects stay in tact, and do not get discarded
+- > It is for this reason, that if you continue to call a closure function repeatedly, an additional activation object is created by the execution context, the closure points to it, and it is never deleted from memory, AKA Memory Leak
+
+Obect Memebers:
+- > The property and method references contained in an object
+- > Slower access
+
+Protoypes: 
+
+- > Objects are based on prototypes
+- > A Prototype is an object that serves as the base for another object
+- > The Protoype defines and implements the object members that the new object must have 
+- > Different model than traditional object oriented language's concept of classes where which define the proccess for creating a new object.
+- > This is because prototype objects are shared amongts the instance objects
+- > All instances share the protypes object members
+- > So each object instance contains its own instance members, and shared prototype members
+
+- hasOwnProperty() checks for the Object's instance members only
+
+Prototype Chain: 
+
+You have Object: Book
+
+Book has property: prototype
+
+Book.prototype contains two object members at its core: 
+1.) _proto_
+2.) constructor
+3.) And any additional functions you have added to Book.Prototype
+
+Book.prototype's object member _proto_ points to Book.prototype prototype(this is Object)
+ - > This object contains basic functions inherited by Book, when it was created by the Object's Prototype
+
+
+
+
