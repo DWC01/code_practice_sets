@@ -5,13 +5,12 @@
 tree = [[nil,1,nil],2,[nil,3,[nil,4,[nil,5,[nil,6,nil]]]]]
 
 def min_depth(tree)
-  unless tree.kind_of?(Array)
-    return 0
-  else
-    left_depth  = min_depth(tree[0])
-    right_depth = min_depth(tree[2])
-    return 1 + [left_depth,right_depth].min
-  end
+  return 0 unless tree.kind_of?(Array)
+    
+  left_depth  = min_depth(tree[0])
+  right_depth = min_depth(tree[2])
+  
+  return 1 + [left_depth,right_depth].min
 end
 
 puts min_depth(tree) == 2

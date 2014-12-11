@@ -1,0 +1,18 @@
+// Scope and Data Access:
+
+Places data can be accessed in JavScript: 
+
+1.) Literal Values: Any value that just represents itself
+2.) Variable: A developer defined location for storing data, using var 
+3.) Array: Numically Indexed location stored in a JavaScript Array Object
+4.) Object Members: String-Indexed location stored in a Javascript Object
+
+
+Scope Cahins and Identifier Resource: 
+
+Function: Every function in JavaScript is represented as an Object
+          - > More specifically and instance of Function
+          - > Function Object contain public facing properties
+          - > Also contain interanl properties only accessable by JavaScript Engine
+
+          - > One of these properties is the [[Scope]] property
