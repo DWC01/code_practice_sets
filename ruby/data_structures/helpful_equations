@@ -1,0 +1,8 @@
+# Helpful Equations In Ruby 
+
+# inject to find longest word
+
+longest = %w{ cat sheep bear }
+
+longest.inject do |memo, word|
+   memo.length > word.length ? memo : word
